@@ -118,6 +118,7 @@ src/
 
 The dashboard presents a map and layer legend at the top, followed by current conditions, the hourly forecast, additional weather information and the daily forecast. The air pollution panel remains available on the right side on large screens and can be opened as a mobile sidebar on smaller screens.
 
-## Security Note
+https://github.com/user-attachments/assets/eec4f3a3-693f-4b09-895e-f9b05f455b30
 
-`.env.local` is intended for local development and should not be committed. API keys exposed in a browser application can be restricted by domain and usage limits in the provider dashboards. Use your own restricted keys for deployment.
+
+
