@@ -27,7 +27,7 @@ export default function HourlyForecast({ coords }: Props) {
               hour12: true,
             })}
           </p>
-          <WeatherIcon src={hour.weather[0].icon} />
+          <WeatherIcon className="2xl:size-10" src={hour.weather[0].icon} />
           <p>{Math.round(hour.temp)} °C</p>
         </div>
       ))}

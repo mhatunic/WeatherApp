@@ -8,7 +8,7 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import type { Coords } from "../types";
-import { MaptilerLayer, MapStyle } from "@maptiler/leaflet-maptilersdk";
+import { MaptilerLayer } from "@maptiler/leaflet-maptilersdk";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -24,12 +24,13 @@ export default function Map({ coords, mapType, onMapClick }: Props) {
     <MapContainer
       center={[lat, lon]}
       zoom={5}
-      style={{ width: "1000px", height: "500px" }}
+      style={{ width: "100%", height: "100%" }}
     >
       <MapClick onMapClick={onMapClick} coords={coords} />
       <MapTileLayer />
       <TileLayer
         opacity={0.7}
+        noWrap
         url={`https://tile.openweathermap.org/map/${mapType}/{z}/{x}/{y}.png?appid=${API_KEY}`}
       />
       <Marker position={[lat, lon]} />
@@ -61,16 +62,21 @@ function MapTileLayer() {
   const map = useMap();
 
   useEffect(() => {
-    const tileLayer = new MaptilerLayer({
+    // Keep this in a variable so the extra MapLibre option is forwarded by
+    // MaptilerLayer without triggering excess-property checking in TypeScript.
+    const layerOptions = {
       style: "basic-dark",
       apiKey: "8z8Nt5mIC1vWYnkapG9X",
-    });
+      // MapLibre otherwise renders repeated copies of the world when zoomed out.
+      renderWorldCopies: false,
+    };
+    const tileLayer = new MaptilerLayer(layerOptions);
     tileLayer.addTo(map);
 
     return () => {
       map.removeLayer(tileLayer);
     };
-  }, []);
+  }, [map]);
 
   return null;
 }

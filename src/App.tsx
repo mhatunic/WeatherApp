@@ -17,12 +17,13 @@ import AdditionalInfoSkeleton from "./components/skeleton/AdditionalInfoSkeleton
 import SidePanel from "./components/SidePanel";
 import Hamburger from "/src/assets/hamburger.svg?react";
 import { Button } from "@base-ui/react";
+import MobileHeader from "./components/MobileHeader";
 
 function App() {
   const [coordinates, setCoords] = useState<Coords>({ lat: 40, lon: 45 });
   const [location, setLocation] = useState("Tokyo");
   const [mapType, setMapType] = useState("clouds_new");
-  const [isSidePanelOpen, setIsSidePanelOpen] = useState(true);
+  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
 
   const { data: geocodeData } = useQuery({
     queryKey: ["geocode", location],
@@ -41,36 +42,51 @@ function App() {
 
   return (
     <>
-      <div className="flex flex-col gap-8">
-        <div className="flex gap-8">
-          <div className="flex gap-4">
+      <MobileHeader setIsSidePanelOpen={setIsSidePanelOpen} />
+      <div className="flex min-h-screen flex-col gap-8 pt-4 p-8 xs:pt-8 lg:w-[calc(100vw-var(--sidebar-width))]">
+        <div className="flex flex-col gap-4 xs:flex-row xs:gap-8">
+          <div className="flex flex-col md:flex-row gap-2 md:gap-4">
             <h1 className="text-2xl font-semibold">Location: </h1>
             <LocationDropdown location={location} setLocation={setLocation} />
           </div>
-          <div className="flex gap-8">
-            <h1 className="text-2xl font-semibold">Map Type: </h1>
+          <div className="flex flex-col md:flex-row gap-2 md:gap-4">
+            <h1 className="text-2xl font-semibold whitespace-nowrap">
+              Map Type:{" "}
+            </h1>
             <MapTypeDropdown mapType={mapType} setMapType={setMapType} />
           </div>
-          <Button onClick={() => setIsSidePanelOpen(true)}>
-            <Hamburger className="size-8 invert ml-auto" />
+          <Button
+            onClick={() => setIsSidePanelOpen(true)}
+            className="hidden xs:block"
+          >
+            <Hamburger className="size-6 invert ml-auto lg:hidden" />
           </Button>
         </div>
-        <div className="relative">
-          <Map coords={coords} mapType={mapType} onMapClick={onMapClick} />
-          <MapLegend mapType={mapType} />
+
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-4">
+          <div className="relative col-span-1 h-120 md:col-span-2 2xl:col-span-4 order-1">
+            <Map coords={coords} mapType={mapType} onMapClick={onMapClick} />
+            <MapLegend mapType={mapType} />
+          </div>
+          <div className="col-span-1 2xl:col-start-1 order-2">
+            <Suspense fallback={<CurrentSkeleton />}>
+              <CurrentWeather coords={coords} />
+            </Suspense>
+          </div>
+          <div className="col-span-1 md:col-span-2 2xl:col-span-2 flex flex-col gap-4 order-3">
+            <Suspense fallback={<HourlySkeleton />}>
+              <HourlyForecast coords={coords} />
+            </Suspense>
+            <Suspense fallback={<AdditionalInfoSkeleton />}>
+              <AdditionalInfo coords={coords} />
+            </Suspense>
+          </div>
+          <div className="col-span-1 2xl:col-start-4 order-4">
+            <Suspense fallback={<DailySkeleton />}>
+              <DailyForecast coords={coords} />
+            </Suspense>
+          </div>
         </div>
-        <Suspense fallback={<CurrentSkeleton />}>
-          <CurrentWeather coords={coords} />
-        </Suspense>
-        <Suspense fallback={<HourlySkeleton />}>
-          <HourlyForecast coords={coords} />
-        </Suspense>
-        <Suspense fallback={<DailySkeleton />}>
-          <DailyForecast coords={coords} />
-        </Suspense>
-        <Suspense fallback={<AdditionalInfoSkeleton />}>
-          <AdditionalInfo coords={coords} />
-        </Suspense>
       </div>
       <SidePanel
         coords={coords}

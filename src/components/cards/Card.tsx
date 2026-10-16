@@ -25,7 +25,7 @@ export default function Card({
       <div
         className={clsx(
           childrenClassName,
-          "animate-[fade-in_1s_ease-out_forwards]",
+          "animate-[fade-in_1s_ease-out_forwards] 2xl:flex-1",
         )}
       >
         {children}

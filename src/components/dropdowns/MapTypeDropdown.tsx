@@ -20,7 +20,7 @@ export default function MapTypeDropdown({ mapType, setMapType }: Props) {
         if (value !== null) setMapType(value);
       }}
     >
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-full xs:w-[180px]">
         <SelectValue placeholder="Theme" />
       </SelectTrigger>
       <SelectContent className="z-1001">
