@@ -18,6 +18,7 @@ import SidePanel from "./components/SidePanel";
 import Hamburger from "/src/assets/hamburger.svg?react";
 import { Button } from "@base-ui/react";
 import MobileHeader from "./components/MobileHeader";
+import LightDarkToggle from "./components/LightDarkToggle";
 
 function App() {
   const [coordinates, setCoords] = useState<Coords>({ lat: 40, lon: 45 });
@@ -55,12 +56,17 @@ function App() {
             </h1>
             <MapTypeDropdown mapType={mapType} setMapType={setMapType} />
           </div>
-          <Button
-            onClick={() => setIsSidePanelOpen(true)}
-            className="hidden xs:block"
-          >
-            <Hamburger className="size-6 invert ml-auto lg:hidden" />
-          </Button>
+          <div className="ml-auto flex gap-4 items-center">
+            <div className="hidden xs:block">
+              <LightDarkToggle />
+            </div>
+            <Button
+              onClick={() => setIsSidePanelOpen(true)}
+              className="hidden xs:block"
+            >
+              <Hamburger className="size-6 dark:invert lg:hidden" />
+            </Button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-4">

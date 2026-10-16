@@ -1,6 +1,6 @@
 import { getAirPollution } from "@/api";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import React, { Suspense, type Dispatch, type SetStateAction } from "react";
+import { Suspense, type Dispatch, type SetStateAction } from "react";
 import Card from "./cards/Card";
 import { Slider } from "./ui/slider";
 import clsx from "clsx";
@@ -28,7 +28,7 @@ export default function SidePanel(props: Props) {
       )}
     >
       <Button onClick={() => setIsSidePanelOpen(false)}>
-        <Chevron className="size-8 invert -ml-2 lg:hidden" />
+        <Chevron className="size-8 dark:invert -ml-2 lg:hidden" />
       </Button>
       <Suspense fallback={<SidePanelSkeleton />}>
         <AirPollution {...props} />
@@ -51,7 +51,7 @@ function AirPollution({ coords }: Props) {
         <h1 className="text-2xl font-semibold">AQI</h1>
         <Tooltip>
           <TooltipTrigger>
-            <Information className="size-4 invert" />
+            <Information className="size-4 dark:invert" />
           </TooltipTrigger>
           <TooltipContent className="z-2000">
             <p className="max-w-xs">
@@ -105,7 +105,7 @@ function AirPollution({ coords }: Props) {
                 <span className="text-lg font-bold capitalize">{key}</span>
                 <Tooltip>
                   <TooltipTrigger>
-                    <Information className="size-4 invert" />
+                    <Information className="size-4 dark:invert" />
                   </TooltipTrigger>
                   <TooltipContent className="z-2000">
                     <p className="max-w-xs">

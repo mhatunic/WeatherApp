@@ -1,4 +1,3 @@
-import React from "react";
 import SideCardSekeleton from "./SideCardSkeleton";
 import { Skeleton } from "../ui/skeleton";
 
@@ -11,6 +10,7 @@ export default function SidePanelSkeleton({}: Props) {
       <Skeleton className="size-12" />
       <div className="flex items-center gap-2">
         <h1 className="text-2xl font-semibold">AQI</h1>
+        <Skeleton className="size-4 rounded-full" />
       </div>
       {Array.from({ length: 8 }).map((_, index) => (
         <SideCardSekeleton key={index} />
